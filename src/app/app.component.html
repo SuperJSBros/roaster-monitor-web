@@ -2,7 +2,12 @@
 <h1>Coffee Roaster Monitor</h1>
 <a href="https://github.com/SuperJSBros" target="_blank">by SuperJSBros</a>
 
+<app-roast-recorder></app-roast-recorder>
+<p>Live ChartJS</p>
 
+<ng-template *ngIf="recording">
+  <h2>Roast Information</h2>
 
+</ng-template>
 
 <router-outlet></router-outlet>
