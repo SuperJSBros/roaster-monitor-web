@@ -1,6 +1,6 @@
-<div class=".container">
+<div class="">
 
-  <div>
+  <div >
 
     <label class="form-label" for="batchID">Roast ID</label>
     <input
@@ -9,11 +9,45 @@
     type="text"
     placeholder="001"
     >
-    <button class="btn btn-danger .col-sm-2">RECORD</button>
-    <button class="btn btn-primary .col-sm-2">COMPARE</button>
+    <button class="btn btn-danger .col-sm-2" (click)="showPanel=true">RECORD</button>
+    <button class="btn btn-primary .col-sm-2" (click)="showPanel=false">COMPARE</button>
     
   </div>
   
   <p>Live ChartJS</p>
+
+  <div *ngIf="!showPanel">
+
+    <label class="form-label" for="batchID">Roast Information</label>
+
+    <input
+    class="form-control bg-light .col-sm-8" 
+    id="batchOrigine"
+    type="text"
+    placeholder="BEANS ORIGINE"
+    >
+    <input
+    class="form-control bg-light .col-sm-8" 
+    id="batchWeight"
+    type="text"
+    placeholder="BEANS WEIGHT"
+    >
+    <input
+    class="form-control bg-light .col-sm-8" 
+    id="batchOutTemperature"
+    type="text"
+    placeholder="OUT TEMPERATURE"
+    >
+    <input
+    class="form-control bg-light .col-sm-8" 
+    id="batchTotalTime"
+    type="text"
+    placeholder="TOTAL ROASTING TIME"
+    >
+
+    <button class="btn btn-danger .col-sm-2">SAVE</button>
+
+
+  </div>
 
 </div>
