@@ -4,25 +4,37 @@
   <div class="row g-2">
     <h4>Roast ID</h4>
     <div class="row justify-content-md-center">
-      <input class="col col-xxxl-8 form-control bg-light" id="batchID" type="text" placeholder="001">
+      <input class="col col-xxxl-4 form-control bg-light" id="batchID" type="text" placeholder="001">
       <button class="col col-lg-2 btn btn-danger" (click)="showPanel=true">RECORD</button>
+      <input class="col col-xxxl-4 form-control bg-light" id="batchID" type="text" placeholder="001">
       <button class="col col-lg-2 btn btn-primary" (click)="showPanel=false">COMPARE</button>
     </div>
   </div>
 
   <!-- CHARTJS COMPONENTS -->
   <p class="row g-2">Live ChartJS</p>
+  <div style="display: block;">
+    <canvas baseChart width="400" height="100"
+      [type]="'line'"
+      [data]="lineChartData"
+      [options]="lineChartOptions"
+      [legend]="lineChartLegend">
+    </canvas>
+  </div>
 
   <!-- BATCH METADATA PANEL -->
-  <div class="row g-1" *ngIf="!showPanel">
-    <h4>Roast Information</h4>
-    <div class="row g-1">
+  <div class="row g-1" *ngIf="showPanel">
+    <div class="col ">
+      <h4>Roast Information</h4>
       <input class="form-control bg-light" id="batchOrigine" type="text" placeholder="BEANS ORIGINE">
       <input class="form-control bg-light" id="batchWeight" type="text" placeholder="BEANS WEIGHT">
       <input class="form-control bg-light" id="batchOutTemperature" type="text" placeholder="OUT TEMPERATURE">
       <input class="form-control bg-light" id="batchTotalTime" type="text" placeholder="TOTAL ROASTING TIME">
       <button class="btn btn-danger">SAVE</button>
     </div>
+    <!-- <div class="vr"></div> -->
+    <div class="col">
+    </div>
   </div>
 
-</div>
+</div>               
