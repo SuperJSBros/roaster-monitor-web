@@ -1,53 +1,28 @@
-<div class="">
+<div class="row g-1">
 
-  <div >
-
-    <label class="form-label" for="batchID">Roast ID</label>
-    <input
-    class="form-control bg-light .col-sm-8" 
-    id="batchID"
-    type="text"
-    placeholder="001"
-    >
-    <button class="btn btn-danger .col-sm-2" (click)="showPanel=true">RECORD</button>
-    <button class="btn btn-primary .col-sm-2" (click)="showPanel=false">COMPARE</button>
-    
+  <!-- ROAST ID AND RECORD BUTTON -->
+  <div class="row g-2">
+    <h4>Roast ID</h4>
+    <div class="row justify-content-md-center">
+      <input class="col col-xxxl-8 form-control bg-light" id="batchID" type="text" placeholder="001">
+      <button class="col col-lg-2 btn btn-danger" (click)="showPanel=true">RECORD</button>
+      <button class="col col-lg-2 btn btn-primary" (click)="showPanel=false">COMPARE</button>
+    </div>
   </div>
-  
-  <p>Live ChartJS</p>
 
-  <div *ngIf="!showPanel">
+  <!-- CHARTJS COMPONENTS -->
+  <p class="row g-2">Live ChartJS</p>
 
-    <label class="form-label" for="batchID">Roast Information</label>
-
-    <input
-    class="form-control bg-light .col-sm-8" 
-    id="batchOrigine"
-    type="text"
-    placeholder="BEANS ORIGINE"
-    >
-    <input
-    class="form-control bg-light .col-sm-8" 
-    id="batchWeight"
-    type="text"
-    placeholder="BEANS WEIGHT"
-    >
-    <input
-    class="form-control bg-light .col-sm-8" 
-    id="batchOutTemperature"
-    type="text"
-    placeholder="OUT TEMPERATURE"
-    >
-    <input
-    class="form-control bg-light .col-sm-8" 
-    id="batchTotalTime"
-    type="text"
-    placeholder="TOTAL ROASTING TIME"
-    >
-
-    <button class="btn btn-danger .col-sm-2">SAVE</button>
-
-
+  <!-- BATCH METADATA PANEL -->
+  <div class="row g-1" *ngIf="!showPanel">
+    <h4>Roast Information</h4>
+    <div class="row g-1">
+      <input class="form-control bg-light" id="batchOrigine" type="text" placeholder="BEANS ORIGINE">
+      <input class="form-control bg-light" id="batchWeight" type="text" placeholder="BEANS WEIGHT">
+      <input class="form-control bg-light" id="batchOutTemperature" type="text" placeholder="OUT TEMPERATURE">
+      <input class="form-control bg-light" id="batchTotalTime" type="text" placeholder="TOTAL ROASTING TIME">
+      <button class="btn btn-danger">SAVE</button>
+    </div>
   </div>
 
 </div>
