@@ -1,35 +1,41 @@
 import { Component } from '@angular/core';
-import { ChartConfiguration, ChartOptions, ChartType } from "chart.js";
+import { ChartConfiguration, ChartOptions, ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-roast-recorder',
   templateUrl: './roast-recorder.component.html',
-  styleUrls: ['./roast-recorder.component.scss']
+  styleUrls: ['./roast-recorder.component.scss'],
 })
 export class RoastRecorderComponent {
-
   // show or hide Batch Metadata input box
-  showPanel = true
+  showPanel = true;
 
-  chartAxisXLabel = Array.from({length: 30}, (_, i) => i + 1)
+  chartAxisXLabel = Array.from({ length: 30 }, (_, i) => i + 1);
   // CONFIG for Line Chart
   public lineChartData: ChartConfiguration<'line'>['data'] = {
     labels: this.chartAxisXLabel,
     datasets: [
       {
-        data: [ 65, 59, 80, 81, 56, 55, 40, 30 ],
+        data: [65, 59, 80, 81, 56, 55, 40, 30],
         label: 'Series A',
         fill: true,
         tension: 0.5,
         borderColor: 'grey',
-        backgroundColor: 'rgba(200,200,200,0.5)'
-      }
-    ]
+        pointBackgroundColor: 'grey',
+        pointRadius: 4,
+        backgroundColor: 'rgba(200,200,200,0.5)',
+      },
+    ],
   };
   public lineChartOptions: ChartOptions<'line'> = {
-    responsive: true
+    responsive: true,
+    plugins: {
+      title: {
+        display: false,
+        align: "center",
+        text: 'Roaster Temperature Curves',
+      },
+    },
   };
   public lineChartLegend = true;
-
-
 }
