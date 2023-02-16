@@ -1,39 +1,41 @@
-<div class="row g-1">
+<!-- ROAST ID AND RECORD BUTTON -->
+<div class="row mt-2">
+  <h5>Roast ID</h5>
+</div>
+<div class="row">
+  <div class="col input-group mb-3">
+    <input class="form-control bg-light" id="batchID" type="text" placeholder="001">
+    <button class="btn btn-danger" (click)="showPanel=true">RECORD</button>
+  </div>
+  <div class="col input-group mb-3">
+    <input class="form-control bg-light" id="batchID" type="text" placeholder="001">
+    <button class="btn btn-primary" (click)="showPanel=false">COMPARE</button>
+  </div>
+</div>
 
-  <!-- ROAST ID AND RECORD BUTTON -->
-  <div class="row g-2">
-    <h5>Roast ID</h5>
-    <div class="row justify-content-md-center">
-      <input class="col col-xxxl-4 form-control bg-light" id="batchID" type="text" placeholder="001">
-      <button class="col col-lg-2 btn btn-danger" (click)="showPanel=true">RECORD</button>
-      <input class="col col-xxxl-4 form-control bg-light" id="batchID" type="text" placeholder="001">
-      <button class="col col-lg-2 btn btn-primary" (click)="showPanel=false">COMPARE</button>
+<!-- CHARTJS COMPONENTS -->
+<div class="row mt-2">
+  <h5>Temperature Curves</h5>
+</div>
+<div style="display: block;">
+  <canvas baseChart width="400" height="140" [type]="'line'" [data]="lineChartData" [options]="lineChartOptions"
+    [legend]="lineChartLegend">
+  </canvas>
+</div>
+
+<!-- BATCH METADATA PANEL -->
+<div class="row mt-2" *ngIf="showPanel">
+  <div class="col">
+    <div class="row g-1">
+      <h5>Roast Information</h5>
+      <input class="form-control bg-light" id="batchOrigine" type="text" placeholder="BEANS ORIGINE">
+      <input class="form-control bg-light" id="batchWeight" type="text" placeholder="BEANS WEIGHT">
+      <input class="form-control bg-light" id="batchOutTemperature" type="text" placeholder="OUT TEMPERATURE">
+      <input class="form-control bg-light" id="batchTotalTime" type="text" placeholder="TOTAL ROASTING TIME">
+      <button class="btn btn-danger">SAVE</button>
     </div>
   </div>
-
-  <!-- CHARTJS COMPONENTS -->
-  <h5 class="row g-2">Temperature Curves</h5>
-  <div style="display: block;">
-    <canvas baseChart width="400" height="180" [type]="'line'" [data]="lineChartData" [options]="lineChartOptions"
-      [legend]="lineChartLegend">
-    </canvas>
+  <!-- <div class="vr"></div> -->
+  <div class="col">
   </div>
-
-  <!-- BATCH METADATA PANEL -->
-  <div class="row g-1" *ngIf="showPanel">
-    <div class="col">
-      <div class="row g-1">
-        <h5>Roast Information</h5>
-        <input class="form-control bg-light" id="batchOrigine" type="text" placeholder="BEANS ORIGINE">
-        <input class="form-control bg-light" id="batchWeight" type="text" placeholder="BEANS WEIGHT">
-        <input class="form-control bg-light" id="batchOutTemperature" type="text" placeholder="OUT TEMPERATURE">
-        <input class="form-control bg-light" id="batchTotalTime" type="text" placeholder="TOTAL ROASTING TIME">
-        <button class="btn btn-danger">SAVE</button>
-      </div>
-    </div>
-    <!-- <div class="vr"></div> -->
-    <div class="col">
-    </div>
-  </div>
-
 </div>
