@@ -18,7 +18,7 @@ export class RoastRecorderComponent {
     labels: this.chartAxisXLabel,
     datasets: [
       {
-        data: [65, 59, 80, 81, 56, 55, 40, 30, 50, 60,66, 80, 88, 100, 200, 250, 300],
+        data: [65, 59, 80, 81, 56, 55, 40, 30, 50, 60, 66, 80, 88, 100, 200, 250, 300],
         label: 'Series A',
         borderWidth: 2,
         fill: true,
