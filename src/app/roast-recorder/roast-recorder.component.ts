@@ -1,24 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartOptions, ChartType } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
+import { take } from 'rxjs';
+import { IProbeReading } from 'src/types/interfaces';
+import { ProbeDailyService } from '../service/probe-daily.service';
 
 @Component({
   selector: 'app-roast-recorder',
   templateUrl: './roast-recorder.component.html',
   styleUrls: ['./roast-recorder.component.scss'],
 })
-export class RoastRecorderComponent {
-  // show or hide Batch Metadata input box
-  showPanel = true;
+export class RoastRecorderComponent implements OnInit  {
+  
+  public showPanel = true; // show or hide Batch Metadata input box
+  public lineChartLegend = true; 
+  private readonly MAX_READINGS = 600;
+  private dailyProbeReadings:IProbeReading[]=Array.from({ length: this.MAX_READINGS }, (_, i) => ({id: "", probe: 0, createdAt: ""}));
+  @ViewChild(BaseChartDirective) private chart?: BaseChartDirective;
+  
+  constructor(private probeDailyService:ProbeDailyService){}
+
+  public ngOnInit(): void {
+    this.probeDailyService.getDailyProbes().pipe(take(1)).subscribe(
+      (readings)=> {
+        this.insertNewReadings(readings);
+      }
+    );
+    setInterval(() => {
+      this.probeDailyService.getDailyProbes(10).pipe(take(1)).subscribe(
+        (readings) => {
+          this.insertNewReadings(readings);
+        }
+      );
+    }, 3000);
+  }
 
   ///////////////////////////
   // CONFIG for Line Chart //
   ///////////////////////////
-  chartAxisXLabel = Array.from({ length: 30 }, (_, i) => i + 1);
+  chartAxisXLabel = Array.from({ length: this.MAX_READINGS }, (_, i) => i + 1);
+
   public lineChartData: ChartConfiguration<'line'>['data'] = {
     labels: this.chartAxisXLabel,
     datasets: [
       {
-        data: [65, 59, 80, 81, 56, 55, 40, 30, 50, 60, 66, 80, 88, 100, 200, 250, 300],
+        data: this.dailyProbeReadings.map(reading=>reading.probe),
         label: 'Series A',
         borderWidth: 2,
         fill: true,
@@ -49,7 +75,7 @@ export class RoastRecorderComponent {
         position: 'bottom',
         display: false,
         min: 0,
-        max: 600, //the base chart is for 1 mesureament per 3 sec for 30mins
+        max: this.MAX_READINGS, //the base chart is for 1 mesureament per 3 sec for 30mins
         ticks: {
           stepSize: 5,
         }
@@ -76,8 +102,30 @@ export class RoastRecorderComponent {
       }
     }
   };
-  public lineChartLegend = true;
   ///////////////////////////////
   // END CONFIG for Line Chart //
   ///////////////////////////////
+
+  private insertNewReadings(readings:IProbeReading[]) {
+    const newReadings = [...readings.filter(newReading => this.isWithinLast30Minutes(newReading.createdAt))]
+      .slice(0, this.MAX_READINGS).reverse(); // Reverse readings because they are in DESC order
+    newReadings.forEach((newReading) => {
+      const shouldAdd = !this.dailyProbeReadings.map(probe => probe.createdAt).find(date => date === newReading.createdAt); // Ensure the reading has not yet been inserted
+      if (shouldAdd) {
+        this.dailyProbeReadings.shift();
+        this.dailyProbeReadings.push(newReading);
+      }
+    });
+    this.lineChartData.datasets[0].data = this.dailyProbeReadings.map(reading => reading.probe);
+    this.chart?.update();
+  }
+
+  private isWithinLast30Minutes(timestampStr: string): boolean {
+    const timestamp = Date.parse(timestampStr);
+    if (isNaN(timestamp)) {
+      throw new Error('Invalid timestamp string'); 
+    }
+    const thirtyMinutesAgo = Date.now() - (30 * 60 * 1000); // Calculate the timestamp 30 minutes ago
+    return timestamp >= thirtyMinutesAgo && timestamp <= Date.now(); // Check if the parsed timestamp is between 30 minutes ago and now
+  }
 }
