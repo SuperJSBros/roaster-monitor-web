@@ -20,7 +20,7 @@ export class ProbeDailyService {
 
   public getBatchProbes(limit: number=0): Observable<IDailyProbeReading[]> {
     const dailyProbeRoute: string =
-      environment.api.basePath + environment.api.dailyProbes;
+      environment.api.basePath + environment.api.batchProbes;
     return this.http.get<IDailyProbeReading[]>(dailyProbeRoute, {
       params: { limit },
     });

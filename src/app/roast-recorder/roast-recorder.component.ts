@@ -16,10 +16,10 @@ export class RoastRecorderComponent implements OnInit  {
   public isRecording = false;
   public batches:IBatch[]= [];
   public selectedBatchLabel:string="";
-  private LabelFormatter = LabelFormatter;
   private selectedBatch?:IBatch;
   private readonly MAX_READINGS = 600;
   private dailyProbeReadings:IProbeReading[]=Array.from({ length: this.MAX_READINGS }, (_, i) => ({id: "", probe: -1, createdAt: ""}));
+  private LabelFormatter = LabelFormatter;
 
   @ViewChild(BaseChartDirective) private chart?: BaseChartDirective;
   
@@ -65,6 +65,37 @@ export class RoastRecorderComponent implements OnInit  {
     this.selectedBatch = batch;
     this.selectedBatchLabel = LabelFormatter.formatBatchLabel(batch);
   }
+
+  public compareSelectedBatch() {
+    if(this.selectedBatch)
+    {
+    // Fetch batches
+    const batchProbes:number[]=Array.from({ length: this.MAX_READINGS }, (_, i) => (-1));
+    this.probeDailyService.getBatchProbes().pipe(take(1)).subscribe((items)=>
+    {
+      items.forEach((savedReading)=>{
+        batchProbes.shift();
+        batchProbes.push(savedReading.probe);
+
+      })
+      this.lineChartData.datasets.push(
+        {
+          data: batchProbes,
+          label: 'Series B',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.5,
+          borderColor: 'blue',
+          pointBackgroundColor: 'blue',
+          pointRadius: 0,
+          backgroundColor: 'rgba(200,200,200,0.0)',
+        }
+      )
+      this.chart?.update();
+    })
+    }
+  }
+
   ///////////////////////////
   // CONFIG for Line Chart //
   ///////////////////////////
@@ -82,7 +113,7 @@ export class RoastRecorderComponent implements OnInit  {
         borderColor: 'grey',
         pointBackgroundColor: 'grey',
         pointRadius: 0,
-        backgroundColor: 'rgba(200,200,200,0.5)',
+        backgroundColor: 'rgba(200,200,200,0.0)',
       },
     ],
   };
@@ -154,10 +185,6 @@ export class RoastRecorderComponent implements OnInit  {
     });
     this.lineChartData.datasets[0].data = this.dailyProbeReadings.map(reading => reading.probe);
     this.chart?.update();
-  }
-
-  private savePoints():void{
-    
   }
 
   private isWithinLast30Minutes(timestampStr: string): boolean {
