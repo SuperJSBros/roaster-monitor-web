@@ -1,0 +1,13 @@
+<div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="Filter by name" [(ngModel)]="filterBy">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="button" (click)="filterBy=''">Clear</button>
+  </div>
+</div>
+
+<ul class="list-group">
+  <li *ngFor="let item of filteredItems; index as i"  class="list-group-item" [class.active]="isSelected(item)" [class.disabled]="disabled"
+  (click)="selectItem(item)">
+    {{ labelFormatter.formatBatchLabel(item) }}
+  </li>
+</ul>

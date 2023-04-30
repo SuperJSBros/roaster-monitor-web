@@ -4,12 +4,13 @@
 </div>
 <div class="row">
   <div class="col input-group mb-3">
-    <input class="form-control bg-light" id="batchID" type="text" placeholder="001">
-    <button class="btn btn-danger" (click)="showPanel=true">RECORD</button>
+    <input class="form-control bg-light" id="batchID" type="text" [placeholder]="selectedBatchLabel" disabled ="true">
+    <button class="btn btn-danger" *ngIf="!isRecording" (click)="startRecording()">RECORD</button>
+    <button class="btn btn-danger" *ngIf="isRecording" (click)="stopRecording()">STOP RECORDING</button>
   </div>
   <div class="col input-group mb-3">
-    <input class="form-control bg-light" id="batchID" type="text" placeholder="001">
-    <button class="btn btn-primary" (click)="showPanel=false">COMPARE</button>
+    <input class="form-control bg-light" id="batchID" type="text" [placeholder]="selectedBatchLabel" disabled ="true">
+    <button class="btn btn-primary" >COMPARE</button>
   </div>
 </div>
 
@@ -23,19 +24,15 @@
   </canvas>
 </div>
 
-<!-- BATCH METADATA PANEL -->
-<div class="row mt-2" *ngIf="showPanel">
-  <div class="col">
-    <div class="row g-1">
-      <h5>Roast Information</h5>
-      <input class="form-control bg-light" id="batchOrigine" type="text" placeholder="BEANS ORIGINE">
-      <input class="form-control bg-light" id="batchWeight" type="text" placeholder="BEANS WEIGHT">
-      <input class="form-control bg-light" id="batchOutTemperature" type="text" placeholder="OUT TEMPERATURE">
-      <input class="form-control bg-light" id="batchTotalTime" type="text" placeholder="TOTAL ROASTING TIME">
-      <button class="btn btn-danger">SAVE</button>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-9">
+      <h4>Item List</h4>
+      <app-batch-list [batches]="batches" [disabled]="isRecording" (selectedItemsEvent)="setSelectedBatch($event)" ></app-batch-list>
     </div>
-  </div>
-  <!-- <div class="vr"></div> -->
-  <div class="col">
+    <div class="col-md-3">
+      <h4> <br></h4> <!--empty h4 to keep consistency -->
+      <app-batch-form (newBatchEvent)="addBatch($event)"></app-batch-form>
+    </div>
   </div>
 </div>
