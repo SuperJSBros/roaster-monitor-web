@@ -1,0 +1,34 @@
+
+<button *ngIf="!isOpen" type="button" class="btn btn-primary" (click)="openForm()">New Item</button>
+
+<form *ngIf="isOpen" (ngSubmit)="saveItem()" class="card p-3">
+  <div class="form-group">
+    <label for="item-name">Name</label>
+    <input type="text" id="item-name" [(ngModel)]="item.name" name="name" class="form-control" autocomplete="off"  required>
+  </div>
+
+  <div class="form-group">
+    <label for="item-weight">Weight</label>
+    <input type="number" id="item-weight" [(ngModel)]="item.weight" name="weight" class="form-control" autocomplete="off"  required>
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="item-origin">Origin</label>
+    <input type="text" id="item-origin" [(ngModel)]="item.origin" name="origin" class="form-control"  autocomplete="off"  required>
+  </div>
+
+  <div class="row">
+    <div class="col d-flex justify-content-center">
+      <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+    <div class="col d-flex justify-content-center">
+      <button type="button" class="btn btn-danger " (click)="closeForm()">Close</button>
+    </div>
+  </div>
+
+
+
+</form>
+
+
+
